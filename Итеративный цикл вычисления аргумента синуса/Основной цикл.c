@@ -3,14 +3,27 @@
 #include <math.h>
 int main(void)
 {
-	float PZU[4] = { 0,0.98936,-0.2879,-0.90558 };// шаг значений в массиве 8
-	int d = 8; //это наш шаг
-	float x = 2.5; //входное значение
-	int x1 = x / 0.1;//x=25 11001
-	int mask = 11000; //маска разбивающие число на 2 старших,и три малдших бита
-	int x1 = x1 & mask;//24 11000-результат применения маски
-	float sinx = PZU[x1 / 8];//Обращинеи к массиву значений синуса в ПЗУ(уточнить,нужно ли это делать тоже в целочисленной форме,и если да,то как лучше)
-	int y = x1 & ~mask;//1 00001-результат применения маски
-	float siny = PZU[0] + (((PZU[1] - PZU[0]) / d) * y);//приближеное вычbсление sin(y)
-	int sum = sinx * ()
+	double Razr = pow(2, 9);
+	float pina2 = pow(2, 9);
+	float  PZU[512]={0};
+	float fc = 1000000;
+	int i=0;
+	for ( i = 0; i < Razr; i++)
+	{
+		float x = (1/Razr)*i;
+		float eps = 0.000001;
+		float n = 1;
+		float sum = 0;
+		float q = x;
+		do
+		{
+			sum += q;
+			q *= (-1) * x * x / (2 * n) / (2 * n + 1);
+			++n;
+		} while (fabs(q) >= eps);
+		PZU[i] = sum;
+		printf("Znachenie sin(%f)=%f,i=%d\n", x, PZU[i],i);
+	}
+	
+	return 0;
 }
